@@ -1,0 +1,25 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+
+body {
+  background-color: rgba(2,4,14,0.95);
+  color: white;
+}
+
+.send-button {
+  float: right;
+}
+
+.hidden {
+  display: none;
+}
+
+.br {
+  height: 100px;
+}
