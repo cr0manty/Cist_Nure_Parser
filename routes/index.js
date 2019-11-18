@@ -26,33 +26,35 @@ router.post('/', async function (req, res, next) {
     const main_url = form.test ? test_url : url;
     if (form.test_file) {
         fs.readFile("./static/test.csv", 'binary',
-            function (err, data) {
+            async function (err, data) {
                 if (err)
                     console.log(err);
-                else if (data)
-                    if (create_json(data))
-                        req.redirect('/result');
+                else if (data) {
+                    const json = await create_json(data);
+                    res.redirect('result.json');
+                }
             });
     } else {
         await request.get(main_url, function (err, res, body) {
             if (!err && body) {
-                if (create_json(body))
-                    req.redirect('/result');
+                create_json(body);
+                req.redirect('/result');
             }
         });
     }
 });
 
-router.get('/result', function (req, res, next) {
-    fs.readFile("./static/result.json", 'utf8',
-        function (err, data) {
-            if (!err && data) {
-                console.log(body);
-                res.render('result', {csv: data});
-            } else {
-                res.redirect('/');
-            }
-        });
+router.get('/result', async function (req, res, next) {
+    res.render('result');
+    // await fs.readFile("./static/result.json", 'utf8',
+    //     async function (err, data) {
+    //         if (!err && data) {
+    //             console.log(data);
+    //             res.render('result', {csv: data});
+    //         } else {
+    //             res.redirect('/');
+    //         }
+    //     });
 });
 
 

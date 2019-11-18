@@ -3,16 +3,13 @@
 <head>
     <% include blocks/head.ejs %>
     <title>Result</title>
-    <% if(csv) { %>
-        <script>
-            $(document).ready(function () {
-                $('#result_area').text(`<%= csv %>`);
-                $('#download').click(function(){
-                    window.location('http://' + document.domain + ':' + location.port + '/static/result.json');
-                });
+    <script>
+        $(document).ready(function () {
+            $('#download').click(function () {
+                window.location('http://' + document.domain + ':' + location.port + '/static/result.json');
             });
-        </script>
-    <% } %>
+        });
+    </script>
 </head>
 <body>
 <div class="container">
