@@ -7,19 +7,11 @@ const CSVSchema = new Schema({
         type: String,
         required: true,
     },
-    startDate: {
+    startDateTime: {
         type: Date,
         required: true,
     },
-    startTime: {
-        type: Date,
-        required: true,
-    },
-    endDate: {
-        type: Date,
-        required: true,
-    },
-    endTime: {
+    endDateTime: {
         type: Date,
         required: true,
     },
@@ -31,15 +23,11 @@ const CSVSchema = new Schema({
        type: Boolean,
         required: true,
     },
-    alertDate: {
+    alertDateTime: {
         type: Date,
         required: true,
     },
-    alertTime: {
-        type: Date,
-        required: true,
-    },
-    atThistime: {
+    atThisTime: {
         type: Number,
         required: true,
     },
