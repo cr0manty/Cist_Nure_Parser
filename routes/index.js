@@ -3,7 +3,7 @@ const router = express.Router();
 const fs = require("fs");
 const request = require('request');
 const create_json = require('./create_json');
-
+const save_csv = require('./csv_to_bd');
 
 router.get('/', function (req, res, next) {
     res.render('index', {title: 'Express'});
@@ -31,6 +31,7 @@ router.post('/', async function (req, res, next) {
                     console.log(err);
                 else if (data) {
                     const json = await create_json(data);
+
                     res.redirect('result.json');
                 }
             });
