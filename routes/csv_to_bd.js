@@ -1,7 +1,9 @@
 const CSV = require('../models/from_csv');
 
 function to_time(date, time) {
-    return new Date(`${date} ${time} GMT`);
+    date = date.split('.');
+    time = time.split(':');
+    return new Date(date[2], date[1]-1, date[0], time[0], time[1], time[2]);
 }
 
 module.exports = function (json) {

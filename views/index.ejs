@@ -27,13 +27,20 @@
                 Test url
             </label>
         </div>
-        <div class="form-check  send-button mr-3">
-            <input class="form-check-input" type="checkbox" id="test_file" value="1" name="test_file">
-            <label class="form-check-label" for="test_file">
-                Test file
-            </label>
+    </form>
+    <br><br><br>
+    <form action="/" method="post">
+        <div class="form-group">
+            <label for="test_file">Example select</label>
+            <select multiple class="form-control" id="test_file" name="test_file">
+                <% for(let i = 1; i <= files_amount; i++) { %>
+                    <option>
+                        <%= i %>
+                    </option>
+                <% } %>
+            </select>
         </div>
-
+        <button class="btn btn-danger send-button">Test</button>
     </form>
 </div>
 </body>
