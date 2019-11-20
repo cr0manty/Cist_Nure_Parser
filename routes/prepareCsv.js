@@ -1,6 +1,5 @@
 const to_json = require("csvtojson");
 const Iconv = require('iconv').Iconv;
-const fs = require("fs");
 const save_csv = require('./csv_to_bd');
 
 module.exports = async function (body) {
