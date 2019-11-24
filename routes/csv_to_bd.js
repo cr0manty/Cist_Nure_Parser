@@ -3,7 +3,7 @@ const CSV = require('../models/from_csv');
 function to_time(date, time) {
     date = date.split('.');
     time = time.split(':');
-    return new Date(date[2], date[1]-1, date[0], time[0], time[1], time[2]);
+    return new Date(date[2], date[1] - 1, date[0], time[0], time[1], time[2]).getTime();
 }
 
 module.exports = function (json) {
@@ -21,6 +21,10 @@ module.exports = function (json) {
             description: values[11],
             mark: values[12],
         };
-        CSV.create(data)
+        CSV.create(data, function (err, data) {
+            if (err) {
+                console.log(err)
+            }
+        })
     });
 };

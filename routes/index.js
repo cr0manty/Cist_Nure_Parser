@@ -5,10 +5,10 @@ const request = require('request');
 const csv_to_mongo = require('./prepareCsv');
 
 
-router.get('/', async function (req, res) {
-
-    if (!req.query.length)
-        res.render('index', {files_amount: 8});
+router.get('/', function (req, res) {
+    if (!req.query.length) {
+        return res.render('index', {files_amount: 8});
+    }
 
     try {
         let data = {
@@ -18,23 +18,23 @@ router.get('/', async function (req, res) {
             type: req.query.type
         };
         const url = `http://cist.nure.ua/ias/app/tt/WEB_IAS_TT_GNR_RASP.GEN_GROUP_POTOK_RASP?ATypeDoc=3&Aid_group=${data.groupId}&Aid_potok=0&ADateStart=${data.dateStart}&ADateEnd=${data.dateEnd}&AMultiWorkSheet=0`;
-        await request.get(url, async function (err, res, data) {
+        request.get(url, function (err, res, data) {
             if (err) {
                 console.log(err);
-                res.send(404);
+                return res.send(404);
             } else if (data) {
                 // check if exist in mongo
-                await csv_to_mongo(data);
+                csv_to_mongo(data);
                 // ...
                 // send json file
             }
         });
     } catch (e) {
-        res.send(404);
+        return res.send(404);
     }
 });
 
-router.post('/', async function (req, res, next) {
+router.post('/', function (req, res, next) {
     const form = req.body;
     if (!form.test && !form.test_file) {
         if (!form.group_id || !form.date_end || !form.date_start)
@@ -42,14 +42,14 @@ router.post('/', async function (req, res, next) {
     }
     if (form.test_file) {
         fs.readFile(`./tests/${form.test_file}.csv`, 'binary',
-            async function (err, data) {
+            function (err, data) {
                 if (err) {
                     console.log(err);
                 } else if (data) {
-                    await csv_to_mongo(data);
+                    csv_to_mongo(data);
                 }
             });
-        res.redirect('/');
+        return res.redirect('/');
     } else {
         form.date_start = form.date_start.replace('-', '.');
         form.date_end = form.date_end.replace('-', '.');
@@ -58,11 +58,12 @@ router.post('/', async function (req, res, next) {
         const test_url = `http://cist.nure.ua/ias/app/tt/WEB_IAS_TT_GNR_RASP.GEN_GROUP_POTOK_RASP?ATypeDoc=3&Aid_group=6283377&Aid_potok=0&ADateStart=01.09.2019&ADateEnd=31.01.2020&AMultiWorkSheet=0`;
 
         const main_url = form.test ? test_url : url;
-        await request.get(main_url, async function (err, res, data) {
+        request.get(main_url, function (err, res, data) {
             if (err) {
                 console.log(err);
             } else if (data) {
-                await csv_to_mongo(data);
+                csv_to_mongo(data);
+                return res.redirect('/');
             }
         });
     }
